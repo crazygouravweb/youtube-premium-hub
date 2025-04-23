@@ -1,1 +1,442 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Premium Hub - Ad-Free Player</title>
+    <style>
+        :root {
+            --primary-color: #ff0000;
+            --secondary-color: #282828;
+            --text-color: #ffffff;
+            --accent-color: #00ff00;
+        }
+        
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto', Arial, sans-serif;
+            background-color: #000;
+            color: var(--text-color);
+            background-image: 
+                linear-gradient(rgba(0, 0, 0, 0.7), 
+                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="black"/><text x="10" y="20" font-family="monospace" font-size="10" fill="lime">0101010101</text><text x="10" y="35" font-family="monospace" font-size="10" fill="lime">1010101010</text><text x="10" y="50" font-family="monospace" font-size="10" fill="lime">0101010101</text><text x="10" y="65" font-family="monospace" font-size="10" fill="lime">1010101010</text><text x="10" y="80" font-family="monospace" font-size="10" fill="lime">0101010101</text><text x="10" y="95" font-family="monospace" font-size="10" fill="lime">1010101010</text></svg>');
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 100%;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background-color: rgba(0, 0, 0, 0.8);
+            border-bottom: 1px solid var(--accent-color);
+            position: relative;
+            z-index: 10;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo h1 {
+            margin: 0;
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            text-shadow: 0 0 5px var(--accent-color);
+        }
+        
+        .developer {
+            font-size: 0.8rem;
+            color: var(--accent-color);
+            text-align: right;
+        }
+        
+        .player-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin: 20px auto;
+            border: 1px solid var(--accent-color);
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
+            border-radius: 8px;
+            overflow: hidden;
+            background-color: #000;
+        }
+        
+        #player {
+            width: 100%;
+            aspect-ratio: 16/9;
+            background-color: #000;
+        }
+        
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin: 20px 0;
+            padding: 15px;
+            background-color: rgba(40, 40, 40, 0.7);
+            border-radius: 8px;
+            border: 1px solid var(--accent-color);
+        }
+        
+        input, button {
+            padding: 10px 15px;
+            border: 1px solid var(--accent-color);
+            background-color: var(--secondary-color);
+            color: var(--text-color);
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        
+        input {
+            flex-grow: 1;
+            min-width: 200px;
+        }
+        
+        button {
+            cursor: pointer;
+            transition: all 0.3s;
+            background-color: var(--primary-color);
+            font-weight: bold;
+        }
+        
+        button:hover {
+            background-color: #ff3333;
+            box-shadow: 0 0 10px var(--primary-color);
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .feature-card {
+            background-color: rgba(40, 40, 40, 0.7);
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid var(--accent-color);
+            transition: transform 0.3s;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 255, 0, 0.2);
+        }
+        
+        .feature-card h3 {
+            color: var(--accent-color);
+            margin-top: 0;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 30px;
+            border-top: 1px solid var(--accent-color);
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+        
+        @media (max-width: 600px) {
+            header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .developer {
+                margin-top: 10px;
+                text-align: center;
+            }
+            
+            .controls {
+                flex-direction: column;
+            }
+            
+            input, button {
+                width: 100%;
+            }
+        }
+        
+        /* Hacker animation effects */
+        @keyframes flicker {
+            0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+                text-shadow:
+                    0 0 5px var(--accent-color),
+                    0 0 10px var(--accent-color),
+                    0 0 20px var(--accent-color),
+                    0 0 40px #0ff,
+                    0 0 80px #0ff,
+                    0 0 90px #0ff,
+                    0 0 100px #0ff,
+                    0 0 150px #0ff;
+            }
+            20%, 24%, 55% {        
+                text-shadow: none;
+            }
+        }
+        
+        .hacker-text {
+            animation: flicker 3s infinite alternate;
+        }
+        
+        /* Glitch effect */
+        .glitch {
+            position: relative;
+        }
+        
+        .glitch::before, .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.8;
+        }
+        
+        .glitch::before {
+            color: #0ff;
+            z-index: -1;
+            animation: glitch-effect 3s infinite;
+        }
+        
+        .glitch::after {
+            color: #f0f;
+            z-index: -2;
+            animation: glitch-effect 2s infinite reverse;
+        }
+        
+        @keyframes glitch-effect {
+            0% { transform: translate(0); }
+            20% { transform: translate(-3px, 3px); }
+            40% { transform: translate(-3px, -3px); }
+            60% { transform: translate(3px, 3px); }
+            80% { transform: translate(3px, -3px); }
+            100% { transform: translate(0); }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <h1 class="hacker-text glitch" data-text="YouTube Premium Hub">YouTube Premium Hub</h1>
+        </div>
+        <div class="developer">
+            Developed by <span class="hacker-text">Crazy Gaurav</span>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="player-container">
+            <div id="player"></div>
+        </div>
+        
+        <div class="controls">
+            <input type="text" id="videoUrl" placeholder="Paste YouTube video URL here" autocomplete="off">
+            <button id="playBtn">PLAY (AD-FREE)</button>
+            <button id="pipBtn">PIP MODE</button>
+            <button id="bgBtn">BACKGROUND PLAY</button>
+        </div>
+        
+        <div class="features">
+            <div class="feature-card">
+                <h3>AD-FREE PLAYBACK</h3>
+                <p>Watch YouTube videos without any annoying ads interrupting your experience. Enjoy seamless playback from start to finish.</p>
+            </div>
+            <div class="feature-card">
+                <h3>PICTURE-IN-PICTURE</h3>
+                <p>Use PiP mode to keep watching while using other apps. Perfect for multitasking on your device.</p>
+            </div>
+            <div class="feature-card">
+                <h3>BACKGROUND PLAY</h3>
+                <p>Listen to YouTube videos with your screen off or while using other apps. Great for music and podcasts.</p>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>YouTube Premium Hub &copy; 2023 | Developed by Crazy Gaurav</p>
+        <p>This is an independent service and not affiliated with YouTube or Google.</p>
+    </footer>
+
+    <script>
+        // YouTube Player API
+        let player;
+        let currentVideoId = '';
+        
+        // DOM Elements
+        const videoUrlInput = document.getElementById('videoUrl');
+        const playBtn = document.getElementById('playBtn');
+        const pipBtn = document.getElementById('pipBtn');
+        const bgBtn = document.getElementById('bgBtn');
+        
+        // Load YouTube IFrame API
+        const tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        const firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+        
+        // Create YouTube player
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('player', {
+                height: '100%',
+                width: '100%',
+                playerVars: {
+                    'autoplay': 0,
+                    'controls': 1,
+                    'disablekb': 0,
+                    'enablejsapi': 1,
+                    'fs': 1,
+                    'rel': 0,
+                    'modestbranding': 1
+                },
+                events: {
+                    'onReady': onPlayerReady,
+                    'onStateChange': onPlayerStateChange
+                }
+            });
+        }
+        
+        function onPlayerReady(event) {
+            console.log('Player is ready');
+            // Check for URL in case of page reload
+            checkUrlForVideo();
+        }
+        
+        function onPlayerStateChange(event) {
+            // Handle player state changes if needed
+        }
+        
+        // Extract video ID from URL
+        function extractVideoId(url) {
+            const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+            const match = url.match(regExp);
+            return (match && match[2].length === 11) ? match[2] : null;
+        }
+        
+        // Load video into player
+        function loadVideo(videoId) {
+            if (videoId) {
+                currentVideoId = videoId;
+                player.loadVideoById(videoId);
+                
+                // Store the last played video in localStorage
+                localStorage.setItem('lastPlayedVideo', videoUrlInput.value);
+            }
+        }
+        
+        // Check URL input for video
+        function checkUrlForVideo() {
+            const url = videoUrlInput.value.trim();
+            if (url) {
+                const videoId = extractVideoId(url);
+                if (videoId) {
+                    loadVideo(videoId);
+                } else {
+                    alert('Please enter a valid YouTube URL');
+                }
+            }
+        }
+        
+        // Enter Picture-in-Picture mode
+        function enterPipMode() {
+            if (!currentVideoId) {
+                alert('Please load a video first');
+                return;
+            }
+            
+            const playerElement = document.getElementById('player');
+            if (document.pictureInPictureEnabled && !document.pictureInPictureElement) {
+                playerElement.requestPictureInPicture()
+                    .catch(error => {
+                        console.error('PiP error:', error);
+                        alert('Error entering PiP mode: ' + error.message);
+                    });
+            } else if (document.pictureInPictureElement) {
+                document.exitPictureInPicture()
+                    .catch(error => {
+                        console.error('PiP error:', error);
+                    });
+            } else {
+                alert('Picture-in-Picture is not supported by your browser');
+            }
+        }
+        
+        // Toggle background play
+        function toggleBackgroundPlay() {
+            if (!currentVideoId) {
+                alert('Please load a video first');
+                return;
+            }
+            
+            // For iOS, we need to use the webkit presentation mode
+            const playerElement = document.getElementById('player');
+            
+            if (playerElement.webkitSetPresentationMode) {
+                // iOS Safari
+                const currentMode = playerElement.webkitPresentationMode;
+                const newMode = currentMode === 'picture-in-picture' ? 'inline' : 'picture-in-picture';
+                playerElement.webkitSetPresentationMode(newMode);
+            } else if (document.pictureInPictureEnabled) {
+                // Other browsers
+                if (document.pictureInPictureElement) {
+                    document.exitPictureInPicture();
+                } else {
+                    playerElement.requestPictureInPicture();
+                }
+            } else {
+                // Fallback: Just play the audio
+                if (player.getPlayerState() === YT.PlayerState.PLAYING) {
+                    player.pauseVideo();
+                    alert('Background play not supported. Audio will continue in some browsers.');
+                    player.playVideo();
+                } else {
+                    player.playVideo();
+                }
+            }
+        }
+        
+        // Event Listeners
+        playBtn.addEventListener('click', checkUrlForVideo);
+        
+        pipBtn.addEventListener('click', enterPipMode);
+        
+        bgBtn.addEventListener('click', toggleBackgroundPlay);
+        
+        videoUrlInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkUrlForVideo();
+            }
+        });
+        
+        // Check for last played video on page load
+        window.addEventListener('load', function() {
+            const lastVideo = localStorage.getItem('lastPlayedVideo');
+            if (lastVideo) {
+                videoUrlInput.value = lastVideo;
+            }
+        });
+        
+        // Handle paste event
+        videoUrlInput.addEventListener('paste', function(e) {
+            // Let the paste occur first
+            setTimeout(() => {
+                checkUrlForVideo();
+            }, 10);
+        });
+    </script>
+</body>
+</html>
