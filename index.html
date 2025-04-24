@@ -3,293 +3,758 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>YouTube Premium Hub | Ad-Free Player</title>
+    <title>YouTube Premium Hub | Ad-Free Player by Crazy Gaurav</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --neon-green: #00ff00;
-            --dark-green: #00aa00;
-            --matrix-green: #00ff41;
-            --black: #000000;
-            --dark-bg: #0a0a0a;
-            --glass-bg: rgba(10, 20, 10, 0.3);
-            --glass-border: rgba(0, 255, 0, 0.2);
+            --primary: #ff0000;
+            --primary-dark: #cc0000;
+            --secondary: #00ff00;
+            --secondary-dark: #00cc00;
+            --dark: #111111;
+            --darker: #0a0a0a;
+            --light: #ffffff;
+            --gray: #333333;
+            --neon-glow: 0 0 10px var(--secondary), 0 0 20px var(--secondary), 0 0 30px var(--secondary);
         }
-
+        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-
+        
         body {
-            background: var(--black);
-            color: var(--neon-green);
-            font-family: 'Orbitron', sans-serif;
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--darker);
+            color: var(--light);
             overflow-x: hidden;
-            min-height: 100vh;
             position: relative;
+            min-height: 100vh;
         }
-
-        /* === HACKER MATRIX BACKGROUND === */
-        #matrix-bg {
+        
+        /* Hacker Matrix Background */
+        .matrix-rain {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             z-index: -1;
-            opacity: 0.15;
-            background: url('https://i.gifer.com/7VE.gif') center/cover no-repeat;
+            opacity: 0.1;
+            pointer-events: none;
         }
-
-        /* === GLASSMORPHISM CONTAINER === */
+        
+        /* Glassmorphism Container */
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 2rem;
+            padding: 20px;
             backdrop-filter: blur(10px);
-            z-index: 1;
+            background: rgba(15, 15, 15, 0.7);
+            border-radius: 15px;
+            border: 1px solid rgba(0, 255, 0, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            margin-top: 30px;
+            margin-bottom: 30px;
         }
-
-        /* === HEADER STYLES === */
+        
+        /* Header Styles */
         header {
-            text-align: center;
-            padding: 2rem 0;
-            margin-bottom: 2rem;
-            border-bottom: 1px solid var(--neon-green);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 1px solid rgba(0, 255, 0, 0.3);
+            margin-bottom: 30px;
+            flex-wrap: wrap;
         }
-
-        h1 {
-            font-size: 3rem;
-            margin-bottom: 0.5rem;
-            text-shadow: 0 0 10px var(--matrix-green);
-            letter-spacing: 2px;
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
         }
-
-        .developer {
-            font-size: 1rem;
-            color: var(--dark-green);
-            font-weight: 500;
-            letter-spacing: 1px;
+        
+        .logo-icon {
+            color: var(--primary);
+            font-size: 2rem;
+            text-shadow: var(--neon-glow);
+            animation: pulse 2s infinite;
         }
-
-        /* === VIDEO PLAYER SECTION === */
-        .player-section {
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: 10px;
-            padding: 2rem;
-            box-shadow: 0 0 20px rgba(0, 255, 0, 0.1);
-            margin-bottom: 2rem;
-        }
-
-        .url-input {
-            width: 100%;
-            padding: 1rem;
-            margin-bottom: 1rem;
-            background: rgba(0, 10, 0, 0.5);
-            border: 1px solid var(--neon-green);
-            color: var(--neon-green);
-            font-family: 'Roboto', sans-serif;
-            font-size: 1rem;
-            border-radius: 5px;
-            outline: none;
-            transition: all 0.3s;
-        }
-
-        .url-input:focus {
-            border-color: var(--matrix-green);
-            box-shadow: 0 0 10px var(--neon-green);
-        }
-
-        .play-btn {
-            width: 100%;
-            padding: 1rem;
-            background: linear-gradient(90deg, var(--neon-green), var(--dark-green));
-            color: var(--black);
-            border: none;
+        
+        .logo-text h1 {
             font-family: 'Orbitron', sans-serif;
-            font-weight: bold;
-            font-size: 1.2rem;
-            cursor: pointer;
-            border-radius: 5px;
-            transition: all 0.3s;
-            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: 2px;
             text-transform: uppercase;
+        }
+        
+        .logo-text p {
+            font-size: 0.8rem;
+            color: var(--secondary);
             letter-spacing: 1px;
         }
-
-        .play-btn:hover {
-            background: linear-gradient(90deg, var(--matrix-green), var(--neon-green));
-            box-shadow: 0 0 15px var(--neon-green);
-            transform: translateY(-2px);
+        
+        /* Player Section */
+        .player-section {
+            margin-bottom: 40px;
         }
-
+        
         .player-container {
-            width: 100%;
-            border-radius: 10px;
-            overflow: hidden;
-            border: 1px solid var(--neon-green);
-            box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
-        }
-
-        .player-wrapper {
             position: relative;
-            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
-            height: 0;
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--secondary);
         }
-
-        .player-wrapper iframe {
+        
+        #player {
+            width: 100%;
+            aspect-ratio: 16/9;
+            background-color: #000;
+        }
+        
+        /* Controls */
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            margin: 25px auto;
+            max-width: 800px;
+        }
+        
+        .url-input {
+            flex: 1;
+            min-width: 250px;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 50px;
+            background: rgba(30, 30, 30, 0.8);
+            color: var(--light);
+            font-size: 1rem;
+            border: 1px solid var(--gray);
+            transition: all 0.3s;
+        }
+        
+        .url-input:focus {
+            outline: none;
+            border-color: var(--secondary);
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
+        }
+        
+        .btn {
+            padding: 15px 25px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255, 0, 0, 0.4);
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(135deg, var(--secondary), var(--secondary-dark));
+            color: var(--darker);
+            font-weight: bold;
+        }
+        
+        .btn-secondary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 255, 0, 0.4);
+        }
+        
+        /* Features Grid */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin: 40px 0;
+        }
+        
+        .feature-card {
+            background: rgba(20, 20, 20, 0.7);
+            border-radius: 12px;
+            padding: 25px;
+            border: 1px solid rgba(0, 255, 0, 0.1);
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .feature-card::before {
+            content: '';
             position: absolute;
             top: 0;
             left: 0;
-            width: 100%;
+            width: 5px;
             height: 100%;
-            border: none;
+            background: linear-gradient(to bottom, var(--primary), var(--secondary));
         }
-
-        /* === INSTRUCTIONS SECTION === */
-        .instructions {
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: 10px;
-            padding: 2rem;
-            margin-bottom: 2rem;
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--secondary);
+            box-shadow: 0 10px 20px rgba(0, 255, 0, 0.1);
         }
-
-        .instructions h2 {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            color: var(--matrix-green);
-            text-shadow: 0 0 5px var(--neon-green);
+        
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            color: var(--secondary);
         }
-
-        .instructions ol {
-            padding-left: 1.5rem;
-            font-family: 'Roboto', sans-serif;
+        
+        .feature-card h3 {
+            font-family: 'Orbitron', sans-serif;
+            margin-bottom: 15px;
+            color: var(--secondary);
+            letter-spacing: 1px;
+        }
+        
+        .feature-card p {
             line-height: 1.6;
+            color: rgba(255, 255, 255, 0.8);
         }
-
-        .instructions li {
-            margin-bottom: 0.8rem;
-            color: #ccc;
+        
+        /* Download Options */
+        .download-options {
+            background: rgba(20, 20, 20, 0.8);
+            border-radius: 12px;
+            padding: 25px;
+            margin: 30px auto;
+            max-width: 800px;
+            border: 1px solid var(--secondary);
         }
-
-        /* === FOOTER === */
+        
+        .download-options h2 {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--secondary);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .quality-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+        
+        .quality-btn {
+            padding: 10px 15px;
+            background: rgba(0, 255, 0, 0.1);
+            border: 1px solid var(--secondary);
+            color: var(--secondary);
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .quality-btn:hover {
+            background: rgba(0, 255, 0, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        /* Footer */
         footer {
             text-align: center;
-            padding: 1.5rem;
-            border-top: 1px solid var(--neon-green);
-            font-size: 0.8rem;
-            color: var(--dark-green);
+            padding: 30px 0;
+            margin-top: 50px;
+            border-top: 1px solid rgba(0, 255, 0, 0.3);
         }
-
-        /* === BLINKING CURSOR EFFECT === */
-        .blinking-cursor {
-            animation: blink 1s infinite;
+        
+        footer p {
+            color: var(--gray);
+            font-size: 0.9rem;
         }
-
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
+        
+        /* Animations */
+        @keyframes pulse {
+            0% { opacity: 0.8; }
+            50% { opacity: 1; text-shadow: 0 0 15px var(--primary), 0 0 30px var(--primary); }
+            100% { opacity: 0.8; }
         }
-
-        /* === MOBILE RESPONSIVENESS === */
+        
+        @keyframes flicker {
+            0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+                text-shadow: var(--neon-glow);
+            }
+            20%, 24%, 55% {        
+                text-shadow: none;
+            }
+        }
+        
+        /* Loading Spinner */
+        .spinner {
+            display: none;
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(0, 255, 0, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--secondary);
+            animation: spin 1s ease-in-out infinite;
+            margin: 20px auto;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Responsive Design */
         @media (max-width: 768px) {
-            h1 {
-                font-size: 2rem;
-            }
-
             .container {
-                padding: 1rem;
+                margin: 15px;
+                padding: 15px;
             }
-
-            .player-section, .instructions {
-                padding: 1.5rem;
+            
+            header {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+            
+            .logo {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .controls {
+                flex-direction: column;
+            }
+            
+            .url-input, .btn {
+                width: 100%;
+            }
+            
+            .quality-buttons {
+                flex-direction: column;
+            }
+            
+            .quality-btn {
+                width: 100%;
+                text-align: center;
             }
         }
     </style>
 </head>
 <body>
-    <!-- HACKER MATRIX BACKGROUND -->
-    <div id="matrix-bg"></div>
-
+    <!-- Matrix Rain Animation -->
+    <canvas id="matrix" class="matrix-rain"></canvas>
+    
     <div class="container">
         <header>
-            <h1>YouTube Premium Hub</h1>
-            <p class="developer">Developed by <strong>Crazy Gourav</strong></p>
-        </header>
-
-        <div class="player-section">
-            <input type="text" id="videoUrl" class="url-input" placeholder="Paste YouTube URL here..." autofocus>
-            <button id="playBtn" class="play-btn">▶️ Play Ad-Free Video</button>
-
-            <div class="player-container">
-                <div class="player-wrapper">
-                    <iframe id="player" src="" allowfullscreen></iframe>
+            <div class="logo">
+                <div class="logo-icon"><i class="fab fa-youtube"></i></div>
+                <div class="logo-text">
+                    <h1>YouTube Premium Hub</h1>
+                    <p>by Crazy Gaurav</p>
                 </div>
             </div>
-        </div>
-
-        <div class="instructions">
-            <h2>How To Use <span class="blinking-cursor">_</span></h2>
-            <ol>
-                <li>Copy any YouTube video URL</li>
-                <li>Paste it in the input box above</li>
-                <li>Click "Play Ad-Free Video"</li>
-                <li>Enjoy buffer-free, ad-less playback!</li>
-            </ol>
-        </div>
-
+            <div class="tagline">
+                <p style="color: var(--secondary); font-family: 'Orbitron', sans-serif;">
+                    <i class="fas fa-star"></i> Ad-Free • Background Play • Download Videos
+                </p>
+            </div>
+        </header>
+        
+        <main>
+            <section class="player-section">
+                <div class="player-container">
+                    <div id="player"></div>
+                </div>
+                
+                <div class="controls">
+                    <input type="text" id="videoUrl" class="url-input" placeholder="Paste YouTube URL here..." autocomplete="off">
+                    <button id="playBtn" class="btn btn-primary">
+                        <i class="fas fa-play"></i> PLAY AD-FREE
+                    </button>
+                    <button id="pipBtn" class="btn btn-secondary">
+                        <i class="fas fa-compress"></i> PIP MODE
+                    </button>
+                    <button id="bgBtn" class="btn btn-secondary">
+                        <i class="fas fa-music"></i> BACKGROUND
+                    </button>
+                </div>
+            </section>
+            
+            <!-- Download Section -->
+            <div class="download-options">
+                <h2><i class="fas fa-download"></i> DOWNLOAD VIDEO</h2>
+                <div class="spinner" id="downloadSpinner"></div>
+                <div class="quality-buttons" id="qualityButtons">
+                    <button class="quality-btn" data-quality="1080"><i class="fas fa-hd"></i> 1080p HD</button>
+                    <button class="quality-btn" data-quality="720"><i class="fas fa-video"></i> 720p HD</button>
+                    <button class="quality-btn" data-quality="480"><i class="fas fa-film"></i> 480p SD</button>
+                    <button class="quality-btn" data-quality="360"><i class="fas fa-mobile"></i> 360p Mobile</button>
+                    <button class="quality-btn" data-quality="mp3"><i class="fas fa-music"></i> MP3 Audio</button>
+                </div>
+            </div>
+            
+            <section class="features">
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-ad"></i></div>
+                    <h3>NO ADS</h3>
+                    <p>Experience YouTube without any interruptions. Our technology bypasses all ads for seamless viewing.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-mobile-alt"></i></div>
+                    <h3>PIP MODE</h3>
+                    <p>Watch videos in Picture-in-Picture mode while using other apps. Perfect for multitasking.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-headphones"></i></div>
+                    <h3>BACKGROUND PLAY</h3>
+                    <p>Keep listening to videos with your screen off or while using other applications.</p>
+                </div>
+            </section>
+        </main>
+        
         <footer>
-            © 2025 <strong>YouTube Premium Hub</strong> | Created by <strong>Crazy Gourav</strong>
+            <p>© 2023 YouTube Premium Hub | Developed by Crazy Gaurav</p>
+            <p>This is an independent service and not affiliated with YouTube or Google.</p>
         </footer>
     </div>
 
+    <!-- YouTube Player API -->
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const videoUrl = document.getElementById('videoUrl');
-            const playBtn = document.getElementById('playBtn');
-            const player = document.getElementById('player');
-
-            playBtn.addEventListener('click', function() {
-                let url = videoUrl.value.trim();
-
-                if (!url) {
-                    alert('⚠️ Please enter a YouTube URL!');
-                    return;
+        // YouTube Player API
+        let player;
+        let currentVideoId = '';
+        
+        // DOM Elements
+        const videoUrlInput = document.getElementById('videoUrl');
+        const playBtn = document.getElementById('playBtn');
+        const pipBtn = document.getElementById('pipBtn');
+        const bgBtn = document.getElementById('bgBtn');
+        const qualityButtons = document.getElementById('qualityButtons');
+        const downloadSpinner = document.getElementById('downloadSpinner');
+        
+        // Load YouTube IFrame API
+        const tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        const firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+        
+        // Create YouTube player
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('player', {
+                height: '100%',
+                width: '100%',
+                playerVars: {
+                    'autoplay': 1,
+                    'controls': 1,
+                    'disablekb': 0,
+                    'enablejsapi': 1,
+                    'fs': 1,
+                    'rel': 0,
+                    'modestbranding': 1
+                },
+                events: {
+                    'onReady': onPlayerReady,
+                    'onStateChange': onPlayerStateChange
                 }
-
-                // Extract Video ID from URL
-                let videoId = '';
-                const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
-                const match = url.match(regExp);
-
-                if (match && match[2].length === 11) {
-                    videoId = match[2];
-                } else if (url.includes('youtube.com/shorts/')) {
-                    const shortsMatch = url.match(/youtube\.com\/shorts\/([^\/\?]+)/);
-                    if (shortsMatch && shortsMatch[1]) {
-                        videoId = shortsMatch[1];
-                    }
-                } else {
-                    alert('❌ Invalid YouTube URL!');
-                    return;
-                }
-
+            });
+        }
+        
+        function onPlayerReady(event) {
+            console.log('Player is ready');
+            // Check for URL in case of page reload
+            checkUrlForVideo();
+        }
+        
+        function onPlayerStateChange(event) {
+            // Handle player state changes if needed
+        }
+        
+        // Extract video ID from URL
+        function extractVideoId(url) {
+            const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+            const match = url.match(regExp);
+            return (match && match[2].length === 11) ? match[2] : null;
+        }
+        
+        // Load video into player
+        function loadVideo(videoId) {
+            if (videoId) {
+                currentVideoId = videoId;
+                player.loadVideoById(videoId);
+                
+                // Store the last played video in localStorage
+                localStorage.setItem('lastPlayedVideo', videoUrlInput.value);
+                
+                // Enable download buttons
+                enableDownloadButtons();
+            }
+        }
+        
+        // Check URL input for video
+        function checkUrlForVideo() {
+            const url = videoUrlInput.value.trim();
+            if (url) {
+                const videoId = extractVideoId(url);
                 if (videoId) {
-                    player.src = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1`;
+                    loadVideo(videoId);
+                } else {
+                    showAlert('Please enter a valid YouTube URL');
                 }
-            });
-
-            // Play on pressing Enter
-            videoUrl.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    playBtn.click();
+            }
+        }
+        
+        // Enter Picture-in-Picture mode
+        function enterPipMode() {
+            if (!currentVideoId) {
+                showAlert('Please load a video first');
+                return;
+            }
+            
+            const playerElement = document.getElementById('player');
+            if (document.pictureInPictureEnabled && !document.pictureInPictureElement) {
+                playerElement.requestPictureInPicture()
+                    .catch(error => {
+                        console.error('PiP error:', error);
+                        showAlert('Error entering PiP mode: ' + error.message);
+                    });
+            } else if (document.pictureInPictureElement) {
+                document.exitPictureInPicture()
+                    .catch(error => {
+                        console.error('PiP error:', error);
+                    });
+            } else {
+                showAlert('Picture-in-Picture is not supported by your browser');
+            }
+        }
+        
+        // Toggle background play
+        function toggleBackgroundPlay() {
+            if (!currentVideoId) {
+                showAlert('Please load a video first');
+                return;
+            }
+            
+            // For iOS, we need to use the webkit presentation mode
+            const playerElement = document.getElementById('player');
+            
+            if (playerElement.webkitSetPresentationMode) {
+                // iOS Safari
+                const currentMode = playerElement.webkitPresentationMode;
+                const newMode = currentMode === 'picture-in-picture' ? 'inline' : 'picture-in-picture';
+                playerElement.webkitSetPresentationMode(newMode);
+            } else if (document.pictureInPictureEnabled) {
+                // Other browsers
+                if (document.pictureInPictureElement) {
+                    document.exitPictureInPicture();
+                } else {
+                    playerElement.requestPictureInPicture();
                 }
+            } else {
+                // Fallback: Just play the audio
+                if (player.getPlayerState() === YT.PlayerState.PLAYING) {
+                    player.pauseVideo();
+                    showAlert('Background play not supported. Audio will continue in some browsers.');
+                    player.playVideo();
+                } else {
+                    player.playVideo();
+                }
+            }
+        }
+        
+        // Enable download buttons
+        function enableDownloadButtons() {
+            const buttons = qualityButtons.querySelectorAll('.quality-btn');
+            buttons.forEach(btn => {
+                btn.disabled = false;
+                btn.style.opacity = '1';
+                btn.style.cursor = 'pointer';
             });
+        }
+        
+        // Disable download buttons
+        function disableDownloadButtons() {
+            const buttons = qualityButtons.querySelectorAll('.quality-btn');
+            buttons.forEach(btn => {
+                btn.disabled = true;
+                btn.style.opacity = '0.5';
+                btn.style.cursor = 'not-allowed';
+            });
+        }
+        
+        // Show download spinner
+        function showSpinner() {
+            downloadSpinner.style.display = 'block';
+        }
+        
+        // Hide download spinner
+        function hideSpinner() {
+            downloadSpinner.style.display = 'none';
+        }
+        
+        // Download video
+        function downloadVideo(quality) {
+            if (!currentVideoId) {
+                showAlert('Please load a video first');
+                return;
+            }
+            
+            showSpinner();
+            disableDownloadButtons();
+            
+            // In a real implementation, this would call a backend service
+            // For demo purposes, we'll simulate a download
+            setTimeout(() => {
+                hideSpinner();
+                enableDownloadButtons();
+                
+                // Create a fake download link
+                const link = document.createElement('a');
+                link.href = `https://youtube.com/watch?v=${currentVideoId}`;
+                link.download = `youtube_video_${currentVideoId}_${quality}.${quality === 'mp3' ? 'mp3' : 'mp4'}`;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                
+                showAlert(`Downloading video in ${quality} quality...`);
+            }, 2000);
+        }
+        
+        // Show alert with hacker style
+        function showAlert(message) {
+            const alertBox = document.createElement('div');
+            alertBox.style.position = 'fixed';
+            alertBox.style.bottom = '20px';
+            alertBox.style.left = '50%';
+            alertBox.style.transform = 'translateX(-50%)';
+            alertBox.style.backgroundColor = 'rgba(0, 0, 0, 0.9)';
+            alertBox.style.color = 'var(--secondary)';
+            alertBox.style.padding = '15px 25px';
+            alertBox.style.borderRadius = '5px';
+            alertBox.style.border = '1px solid var(--secondary)';
+            alertBox.style.boxShadow = '0 0 15px rgba(0, 255, 0, 0.5)';
+            alertBox.style.zIndex = '1000';
+            alertBox.style.fontFamily = 'monospace';
+            alertBox.style.textAlign = 'center';
+            alertBox.style.maxWidth = '80%';
+            alertBox.textContent = message;
+            
+            document.body.appendChild(alertBox);
+            
+            setTimeout(() => {
+                alertBox.style.opacity = '0';
+                alertBox.style.transition = 'opacity 0.5s';
+                setTimeout(() => {
+                    document.body.removeChild(alertBox);
+                }, 500);
+            }, 3000);
+        }
+        
+        // Event Listeners
+        playBtn.addEventListener('click', checkUrlForVideo);
+        pipBtn.addEventListener('click', enterPipMode);
+        bgBtn.addEventListener('click', toggleBackgroundPlay);
+        
+        videoUrlInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkUrlForVideo();
+            }
+        });
+        
+        // Handle download quality button clicks
+        qualityButtons.querySelectorAll('.quality-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const quality = btn.getAttribute('data-quality');
+                downloadVideo(quality);
+            });
+        });
+        
+        // Check for last played video on page load
+        window.addEventListener('load', function() {
+            const lastVideo = localStorage.getItem('lastPlayedVideo');
+            if (lastVideo) {
+                videoUrlInput.value = lastVideo;
+            }
+            
+            // Disable download buttons initially
+            disableDownloadButtons();
+        });
+        
+        // Handle paste event
+        videoUrlInput.addEventListener('paste', function(e) {
+            setTimeout(() => {
+                checkUrlForVideo();
+            }, 10);
+        });
+        
+        // Matrix Rain Animation
+        const canvas = document.getElementById('matrix');
+        const ctx = canvas.getContext('2d');
+        
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        
+        const katakana = 'アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブヅプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン';
+        const latin = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        const nums = '0123456789';
+        const binary = '01';
+        
+        const alphabet = katakana + latin + nums + binary;
+        
+        const fontSize = 16;
+        const columns = canvas.width / fontSize;
+        
+        const rainDrops = [];
+        
+        for (let x = 0; x < columns; x++) {
+            rainDrops[x] = 1;
+        }
+        
+        const draw = () => {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            ctx.fillStyle = '#0F0';
+            ctx.font = fontSize + 'px monospace';
+            
+            for (let i = 0; i < rainDrops.length; i++) {
+                const text = alphabet.charAt(Math.floor(Math.random() * alphabet.length));
+                ctx.fillText(text, i * fontSize, rainDrops[i] * fontSize);
+                
+                if (rainDrops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    rainDrops[i] = 0;
+                }
+                rainDrops[i]++;
+            }
+        };
+        
+        setInterval(draw, 30);
+        
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
         });
     </script>
 </body>
-</html>
+                        </html>
